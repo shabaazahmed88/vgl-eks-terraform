@@ -1,21 +1,17 @@
-# VGL EKS Terraform (v2)
+# VGL EKS Terraform (v3)
 
-Production-ready, FinOps-friendly EKS with Terraform.
+Fixes:
+- Proper multi-line variable blocks (no inline `type ... default`).
+- Child module `eks-addons` declares `required_providers` so provider mapping is recognized.
+- Helm/Kubernetes providers configured at env level and passed to addons via `providers` map.
 
 ## Quick Start
 ```bash
 cd infra/envs/dev
+rm -rf .terraform .terraform.lock.hcl
 terraform init -upgrade
 terraform apply
 
 aws eks --region eu-central-1 update-kubeconfig --name vgl-dev
 kubectl get nodes -o wide
-```
-
-## Troubleshooting
-- **Provider mismatch** (AWS/Helm): clear plugins and re-init
-```bash
-rm -rf .terraform .terraform.lock.hcl
-terraform init -upgrade
-terraform -version  # should be >= 1.6
 ```

@@ -1,5 +1,5 @@
-# This module assumes helm and kubernetes providers are configured at the caller
-# and passed in via `providers = { kubernetes = kubernetes.eks, helm = helm.eks }`
+# Assumes the caller passes providers as:
+# providers = { kubernetes = kubernetes.eks, helm = helm.eks }
 
 resource "helm_release" "metrics_server" {
   name       = "metrics-server"

@@ -1,21 +1,23 @@
 variable "name" {
-   type = string 
+  type = string
 }
 variable "cidr" {
-   type = string 
+  type = string
 }
 variable "azs" {
-   type = list(string) 
+  type = list(string)
 }
 variable "private_subnets" {
-   type = list(string) 
+  type = list(string)
 }
-variable "public_subnets"  {
-   type = list(string) 
+variable "public_subnets" {
+  type = list(string)
 }
 variable "enable_nat_gw" {
-   type = bool  default = true 
+  type    = bool
+  default = true
 }
 variable "single_nat_gw" {
-   type = bool  default = true 
+  type    = bool
+  default = true
 }

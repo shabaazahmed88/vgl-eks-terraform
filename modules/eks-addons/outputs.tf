@@ -1,1 +1,3 @@
-output "metrics_server_installed" { value = true }
+output "metrics_server_installed" {
+  value = true
+}

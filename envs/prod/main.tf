@@ -33,9 +33,13 @@ module "eks" {
   max_size_work       = 12
 }
 
-# EKS connection (providers)
-data "aws_eks_cluster" "this" { name = module.eks.cluster_name }
-data "aws_eks_cluster_auth" "this" { name = module.eks.cluster_name }
+# EKS connection for providers
+data "aws_eks_cluster" "this" {
+  name = module.eks.cluster_name
+}
+data "aws_eks_cluster_auth" "this" {
+  name = module.eks.cluster_name
+}
 
 provider "kubernetes" {
   alias                  = "eks"
@@ -55,6 +59,7 @@ provider "helm" {
 
 module "addons" {
   source = "../../modules/eks-addons"
+
   providers = {
     kubernetes = kubernetes.eks
     helm       = helm.eks
@@ -64,6 +69,6 @@ module "addons" {
   region       = var.region
 }
 
-output "cluster_name" { value = module.eks.cluster_name }
-output "cluster_endpoint" { value = module.eks.cluster_endpoint }
-output "vpc_id" { value = module.vpc.vpc_id }
+output "cluster_name"    { value = module.eks.cluster_name }
+output "cluster_endpoint"{ value = module.eks.cluster_endpoint }
+output "vpc_id"          { value = module.vpc.vpc_id }
