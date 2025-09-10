@@ -1,17 +1,29 @@
-# VGL EKS Terraform (v3)
+# Minimal EKS (No Helm/Kubernetes providers)
 
-Fixes:
-- Proper multi-line variable blocks (no inline `type ... default`).
-- Child module `eks-addons` declares `required_providers` so provider mapping is recognized.
-- Helm/Kubernetes providers configured at env level and passed to addons via `providers` map.
+**Simple, working** EKS setup using only the **AWS provider**.
 
-## Quick Start
+## What it does
+- Creates VPC with **2 public subnets** (no NAT required)
+- Creates IAM roles/policies for EKS control plane and managed node group
+- Creates EKS cluster (v1.30) and one node group (t3.medium by default)
+
+## How to use
 ```bash
-cd infra/envs/dev
-rm -rf .terraform .terraform.lock.hcl
 terraform init -upgrade
-terraform apply
+terraform apply -auto-approve
 
-aws eks --region eu-central-1 update-kubeconfig --name vgl-dev
+# Configure kubectl
+aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+
 kubectl get nodes -o wide
 ```
+
+### Variables
+- `region` (default eu-central-1)
+- `cluster_name` (default minimal-eks)
+- `instance_types` (default ["t3.medium"]) — change if your AZs lack t3.medium capacity
+- `desired_size`, `min_size`, `max_size`
+
+### Notes
+- Public subnets + public endpoint keep it **very simple** for interviews/PoC.
+- For production, move nodes to **private subnets**, enable private endpoint, and add NAT.
