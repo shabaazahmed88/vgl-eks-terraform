@@ -1,30 +1,21 @@
-# VGL EKS Terraform (Complete)
+# VGL EKS Terraform (v2)
 
-This repo provisions a FinOps-friendly EKS cluster using Terraform.
-
-## Structure
-
-```
-infra/
-  modules/
-    vpc/
-    eks-cluster/
-    eks-addons/
-  envs/
-    dev/
-    prod/
-.github/workflows/terraform.yml
-```
+Production-ready, FinOps-friendly EKS with Terraform.
 
 ## Quick Start
-
 ```bash
 cd infra/envs/dev
-terraform init
+terraform init -upgrade
 terraform apply
 
 aws eks --region eu-central-1 update-kubeconfig --name vgl-dev
 kubectl get nodes -o wide
 ```
 
-Managed addons installed: coredns, kube-proxy, vpc-cni, **aws-ebs-csi-driver**. Helm installs **metrics-server**.
+## Troubleshooting
+- **Provider mismatch** (AWS/Helm): clear plugins and re-init
+```bash
+rm -rf .terraform .terraform.lock.hcl
+terraform init -upgrade
+terraform -version  # should be >= 1.6
+```

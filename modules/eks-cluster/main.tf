@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 1.6"
   required_providers {
-    aws = { source = "hashicorp/aws", version = ">= 5.55" }
+    aws = { source = "hashicorp/aws", version = ">= 5.55.0" }
   }
 }
 
@@ -49,11 +49,10 @@ module "eks" {
     }
   }
 
-  # Managed addons (no IRSA setup needed)
   cluster_addons = {
-    coredns = { most_recent = true }
-    kube-proxy = { most_recent = true }
-    vpc-cni = { most_recent = true }
+    coredns            = { most_recent = true }
+    kube-proxy         = { most_recent = true }
+    vpc-cni            = { most_recent = true }
     aws-ebs-csi-driver = { most_recent = true }
   }
 
